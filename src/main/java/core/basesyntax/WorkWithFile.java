@@ -15,6 +15,7 @@ public class WorkWithFile {
         int[] totals = calculateTotals(lines);
         writeReportToFile(totals, toFileName);
     }
+
     private List<String> readLinesFromFile(String fileName) {
         try {
             return Files.readAllLines(Path.of(fileName));
@@ -22,9 +23,11 @@ public class WorkWithFile {
             throw new RuntimeException("Can't read file: " + fileName, e);
         }
     }
+
     private int[] calculateTotals(List<String> lines) {
         int supplyAmount = 0;
         int buyAmount = 0;
+
         for (String line : lines) {
             String[] parts = line.split(",");
             if (parts[0].equals(SUPPLY_OPERATION)) {
@@ -33,9 +36,11 @@ public class WorkWithFile {
                 buyAmount += Integer.parseInt(parts[1]);
             }
         }
+
         int result = supplyAmount - buyAmount;
         return new int[]{supplyAmount, buyAmount, result};
     }
+
     private void writeReportToFile(int[] totals, String fileName) {
         String report = SUPPLY_OPERATION + "," + totals[0] + System.lineSeparator()
                 + BUY_OPERATION + "," + totals[1] + System.lineSeparator()
