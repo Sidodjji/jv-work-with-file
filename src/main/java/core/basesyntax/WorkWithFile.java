@@ -13,7 +13,8 @@ public class WorkWithFile {
     public void getStatistic(String fromFileName, String toFileName) {
         List<String> lines = readLinesFromFile(fromFileName);
         int[] totals = calculateTotals(lines);
-        writeReportToFile(totals, toFileName);
+        String report = createReportString(totals);
+        writeStringToFile(report, toFileName);
     }
 
     private List<String> readLinesFromFile(String fileName) {
@@ -41,12 +42,15 @@ public class WorkWithFile {
         return new int[]{supplyAmount, buyAmount, result};
     }
 
-    private void writeReportToFile(int[] totals, String fileName) {
-        String report = SUPPLY_OPERATION + "," + totals[0] + System.lineSeparator()
+    private String createReportString(int[] totals) {
+        return SUPPLY_OPERATION + "," + totals[0] + System.lineSeparator()
                 + BUY_OPERATION + "," + totals[1] + System.lineSeparator()
                 + RESULT_OPERATION + "," + totals[2];
+    }
+
+    private void writeStringToFile(String content, String fileName) {
         try {
-            Files.writeString(Path.of(fileName), report);
+            Files.writeString(Path.of(fileName), content);
         } catch (IOException e) {
             throw new RuntimeException("Can't write file: " + fileName, e);
         }
